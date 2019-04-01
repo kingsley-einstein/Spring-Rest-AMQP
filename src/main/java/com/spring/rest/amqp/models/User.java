@@ -1,8 +1,9 @@
 package com.spring.rest.amqp.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -18,12 +19,10 @@ import lombok.Data;
 public class User implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Email(message = "Invalid email format")
     @NotNull
     @NotEmpty
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotEmpty
