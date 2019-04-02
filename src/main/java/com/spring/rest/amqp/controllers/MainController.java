@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(value = "/user")
 public class MainController {
 
     @Autowired
@@ -50,14 +50,10 @@ public class MainController {
 
     @GetMapping
     @ResponseBody
-    public Optional<User> getUser(@RequestParam("id") String id) {
+    public User getUser(@RequestParam("id") String id) {
         Optional<User> user = userRepo.findById(id);
 
-        if (user != null) {
-            return user;
-        } else {
-            throw new UserNotFoundException("User with given id not found");
-        }
+        return user.orElseThrow(() -> new UserNotFoundException("User with given id not found"));
     }
 
     @GetMapping("/list")

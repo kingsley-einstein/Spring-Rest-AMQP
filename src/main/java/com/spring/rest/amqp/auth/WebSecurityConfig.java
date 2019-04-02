@@ -31,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder(4);
     }
 
+    @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
@@ -45,7 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("SELECT email, password, 'true' as enabled FROM users WHERE email = ?")
-                .authoritiesByUsernameQuery("SELECT email, role FROM authorities WHERE email = ?");
+                .authoritiesByUsernameQuery("SELECT email, role FROM authorities WHERE email = ?")
+                .passwordEncoder(encoder());
     }
 
     @Override
