@@ -65,7 +65,11 @@ public class MainController {
     @PostMapping("/profile")
     @ResponseBody
     public boolean createProfile(@RequestBody Map<String, String> body) {
-        dispatcher.dispatchProfileCreatedEvent(new ProfileCreatedEvent(body.get("email"), body.get("firstName"),
+
+        User user = userRepo.findById(body.get("email"))
+                .orElseThrow(() -> new UserNotFoundException("User with given id not found"));
+
+        dispatcher.dispatchProfileCreatedEvent(new ProfileCreatedEvent(user.getEmail(), body.get("firstName"),
                 body.get("lastName"), Integer.parseInt(body.get("age")), body.get("occupation")));
 
         return true;
